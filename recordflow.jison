@@ -1,5 +1,11 @@
 //* description: Parses RecordFlow Statements. */
 
+/* manipulation functions */
+%{
+
+
+%}
+
 /* lexical grammar */
 %lex
 %%
@@ -11,7 +17,6 @@
 "->"                        return 'RARROW' 
 "<-"                        return 'LARROW'
 ":"                         return ':'
-";"                         return ';'
 "{"                         return '{'
 "}"                         return '}'
 <<EOF>>                     return 'EOF'
@@ -33,7 +38,7 @@ input
 
 exps
     : exp
-    | exps ';' exp
+    | exps exp
     ;
 
 exp
