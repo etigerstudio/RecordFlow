@@ -1,2 +1,5 @@
 test
-RecordFlow
+recordflow
+recordflow.js
+
+generate_test.sh
