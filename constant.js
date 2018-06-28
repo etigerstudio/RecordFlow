@@ -1,5 +1,5 @@
 
-var constant = {
+const constant = {
     version: '0.1.0',
 };
 
