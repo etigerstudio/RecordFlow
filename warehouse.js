@@ -1,5 +1,6 @@
 const constant = require('./constant');
 let config = require('./config');
+const record_map = require('./recordmap');
 
 class Collection {
     constructor(name) {
@@ -8,7 +9,7 @@ class Collection {
     }
 
     record(filter) {
-        return filter(this._records);
+        return new record_map(this, filter(this._records));
     }
 
     append(record) {
@@ -20,6 +21,25 @@ class Collection {
     _after_append(record) {
         if(config.interactive) {
             console.log(`rf.record has been successfully inserted.\n${record.toString()}\n${this.toString()}`);
+        }
+    }
+
+    /*updateRecords(records) {
+        for (update_rec of records) {
+            // fixme: potential new record
+            for (i = 0; i < records.length; ++index) {
+                if (this._records[i]._id === update_rec._id) {
+                    this._records[i]
+                }
+            }
+        }
+    }*/
+
+    getRecordById(id) {
+        for (let rec of this._records) {
+            if (rec._id === id) {
+                return rec;
+            }
         }
     }
 

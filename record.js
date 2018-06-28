@@ -1,4 +1,4 @@
-let crypto = require('crypto');
+const crypto = require('crypto');
 
 class RecordItem {
     constructor(name, value) {
@@ -34,6 +34,23 @@ class Record {
         this._items.push(...item);
     }
 
+    merge(record) {
+        for (let merge_item of record._items) {
+            // fixme: nm time complexity
+            let existing = false;
+            for (let item of this._items) {
+                if (item._name === merge_item._name) {
+                    item._value = merge_item._value;
+                    existing = true;
+                }
+            }
+
+            if (!existing) {
+                this.append(rec_item);
+            }
+        }
+    }
+
     retrieve(name) {
         let item = this._items.filter(item => item._name === name);
         if (item.length > 0) {
@@ -50,12 +67,23 @@ class Record {
     _items_to_string() {
         return this._items.reduce((str, item) => {
             if (str.length === 0) {
-                return str.concat(`${item._item_to_string()}`)
+                return str.concat(`${item._item_to_string()}`);
             } else {
-                return str.concat(`, ${item._item_to_string()}`)
+                return str.concat(`, ${item._item_to_string()}`);
             }
         }, '')
-    };
+    }
+
+    static recordSetToString(records) {
+        return `rf.record_set: ${records.length} records. [` +
+            records.reduce((str, rec) => {
+                if (str.length === 0) {
+                    return str.concat('{' + rec._items_to_string()) + ', _id: ...' + rec._id.substr(36) + '}';
+                } else {
+                    return str.concat(', {' + rec._items_to_string()) + ', _id: ...' + rec._id.substr(36) + '}';
+                }
+            }, '') + ']';
+    }
 }
 
 module.exports = {record: Record, record_item: RecordItem};
