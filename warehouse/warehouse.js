@@ -131,7 +131,9 @@ class WareHouse {
     }
 
     _after_load(count) {
-        console.log(`rf.load: ${count} collections loaded.\n`);
+        if(config.interactive) {
+            console.log(`rf.load: ${count} collections loaded.\n`);
+        }
     }
 
     clear() {

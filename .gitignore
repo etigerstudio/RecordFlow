@@ -1,6 +1,8 @@
 rf_rec
 test/rf_rec
+*.rfrec
 
 recordflow_legacy.rf
+recordflow_test.rf
 
 .idea
