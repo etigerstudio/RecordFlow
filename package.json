@@ -1,6 +1,6 @@
 {
   "name": "recordflow",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Oh my! Such a delightful NoSQL database built on Node.js.",
   "main": "recordflow.js",
   "bin": "recordflow.js",

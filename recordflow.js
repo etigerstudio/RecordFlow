@@ -16,14 +16,11 @@ if (process.argv.length >= 3) {
 
 
 function parseFile() {
-    config.interactive = false;
     initWareHouse();
 
-    config.interactive = true;
     let content = fs.readFileSync(process.argv[2], "utf8");
     parser.parse(content);
-    
-    config.interactive = false;
+
     deinitWareHouse();
 }
 
@@ -44,15 +41,19 @@ function repl() {
     });
 
     rl.on('pause', () => {
-        process.stdout.write('\n\n');
+        process.stdout.write('\n');
         deinitWareHouse();
     });
 }
 
 function initWareHouse() {
+    config.interactive = false;
     warehouse.load();
+    config.interactive = true;
 }
 
 function deinitWareHouse() {
+    config.interactive = false;
     warehouse.save();
+    config.interactive = true;
 }
