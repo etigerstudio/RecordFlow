@@ -20,20 +20,21 @@ class Collection {
 
     _after_append(record) {
         if(config.interactive) {
-            console.log(`rf.record has been successfully inserted.\n${record.toString()}\n${this.toString()}`);
+            console.log(`rf.record.insert: record with ${record.getItemCount()} items inserted. \n${record.getContent()}\n`);
         }
     }
 
-    /*updateRecords(records) {
-        for (update_rec of records) {
-            // fixme: potential new record
-            for (i = 0; i < records.length; ++index) {
-                if (this._records[i]._id === update_rec._id) {
-                    this._records[i]
-                }
-            }
+    dropAll() {
+        let count = this._records.length;
+        this._records = [];
+        this._after_drop_all(count);
+    }
+
+    _after_drop_all(count) {
+        if(config.interactive) {
+            console.log(`rf.collection.drop_all: ${count} records dropped.\n`);
         }
-    }*/
+    }
 
     getRecordById(id) {
         for (let rec of this._records) {
@@ -43,8 +44,20 @@ class Collection {
         }
     }
 
+    dropRecordById(id) {
+        for (let i = 0; i < this._records.length; i++) {
+            if (this._records[i]._id === id) {
+                this._records.splice(i, 1);
+            }
+        }
+    }
+
     toString() {
-        return `rf.collection: ${this._records.length} records. {name: ${this._name}}`;
+        return `rf.collection: ${this._records.length} records in collection '${this._name}'.\n`;
+    }
+
+    log() {
+        console.log(this.toString());
     }
 }
 
@@ -64,7 +77,7 @@ class WareHouse {
             return col;
         }
     }
-
+    
     toString() {
         return `rf: ${this._collections.length} collections. {version: ${constant.version}}`;
     }

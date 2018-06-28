@@ -46,7 +46,7 @@ class Record {
             }
 
             if (!existing) {
-                this.append(rec_item);
+                this.append(merge_item);
             }
         }
     }
@@ -64,6 +64,14 @@ class Record {
         return `rf.record: ${this._items.length} items. {${this._items_to_string()}, _id: ...${this._id.substr(36)}}`;
     }
 
+    getItemCount() {
+        return this._items.length;
+    }
+
+    getContent() {
+        return '{' + this._items_to_string() + '}';
+    }
+
     _items_to_string() {
         return this._items.reduce((str, item) => {
             if (str.length === 0) {
@@ -75,7 +83,7 @@ class Record {
     }
 
     static recordSetToString(records) {
-        return `rf.record_set: ${records.length} records. [` +
+        return `rf.record_set: ${records.length} records in record_set.\n[` +
             records.reduce((str, rec) => {
                 if (str.length === 0) {
                     return str.concat('{' + rec._items_to_string()) + ', _id: ...' + rec._id.substr(36) + '}';

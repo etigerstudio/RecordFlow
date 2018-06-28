@@ -24,6 +24,7 @@ const {record, record_item} = require('./record');
 "="                         return '='
 ">"                         return '>'
 "<"                         return '<'
+"#"                         return '#'
 <<EOF>>                     return 'EOF'
 
 /lex
@@ -50,6 +51,8 @@ exp
     : exp_insert
     | exp_query
     | exp_update
+    | exp_drop
+    | exp_comment
     ;
 
 exp_insert
@@ -66,7 +69,23 @@ exp_query
 
 exp_update
     : record_map LARROW record_entity
-        {console.log('one update action');}
+        {$1.merge($3);}
+    ;
+
+exp_drop
+    : collection_entity RARROW
+        {warehouse.collection($1).dropAll();}
+    | record_map RARROW
+        {$1.drop();}
+    ;
+
+exp_comment
+    : '#' comment_content
+        {console.log('# '+ $2 + '\n');}
+    ;
+
+comment_content
+    : IDENTIFIER
     ;
 
 record_entity
@@ -152,18 +171,20 @@ record_filter_comparison
     ;
 
 record_filter_comparison_equal
-    : record_item_name '=' record_item_value
-        {$$ = filter['equal']($1, $3);}
+    : record_item_name '=' record_item_value_number
+        {$$ = filter['equal']($1, Number($3));}
+    | record_item_name '=' record_item_value_string
+        {$$ = filter['equal']($1, $3.substr(1,$3.length-2));}
     ;
 
 record_filter_comparison_gt
     : record_item_name '>' record_item_value_number
-        {$$ = filter['gt']($1, $3);}
+        {$$ = filter['gt']($1, Number($3));}
     ;
 
 record_filter_comparison_lt
     : record_item_name '<' record_item_value_number
-        {$$ = filter['lt']($1, $3);}
+        {$$ = filter['lt']($1, Number($3));}
     ;
 
 collection_entity

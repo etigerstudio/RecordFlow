@@ -1,5 +1,6 @@
 const record_map = require('./recordmap');
 const record = require('./record').record;
+let config = require('./config');
 
 class RecordMap {
     constructor(collection, records) {
@@ -18,8 +19,23 @@ class RecordMap {
         return new record_map(this._collection, filter(this._records));
     }
 
+    drop() {
+        this._record_ids.forEach(id => this._collection.dropRecordById(id));
+        this._after_drop();
+    }
+
+    _after_drop() {
+        if(config.interactive) {
+            console.log(`rf.record_set.drop: ${this._record_ids.length} records dropped.\n`);
+        }
+    }
+
     toString() {
-        return record.recordSetToString(this._record_ids.map(id => this._collection.getRecordById(id)));
+        return record.recordSetToString(this._record_ids.map(id => this._collection.getRecordById(id))) + '\n';
+    }
+
+    log() {
+        console.log(this.toString());
     }
 }
 
