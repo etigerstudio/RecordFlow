@@ -1,8 +1,4 @@
-test.js
-test_statement
-recordflow
-recordflow.js
-
-generate_test.sh
+rf_rec
+test/rf_rec
 
 .idea

@@ -62,9 +62,9 @@ exp_insert
 
 exp_query
     : collection_entity
-        {console.log(warehouse.collection($1).toString());}
+        {warehouse.collection($1).log();}
     | record_map
-        {console.log($1.toString());}
+        {$1.log();}
     ;
 
 exp_update
@@ -91,7 +91,7 @@ comment_content
 record_entity
     : '{' record_items '}'
         {{
-            let rec = new record();
+            let rec = record.build();
             rec.appendItems($2);
             $$ = rec;
         }}

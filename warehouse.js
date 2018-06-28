@@ -1,6 +1,9 @@
 const constant = require('./constant');
 let config = require('./config');
 const record_map = require('./recordmap');
+const fs = require('fs');
+const path = require('path');
+const {record, record_item} = require('./record');
 
 class Collection {
     constructor(name) {
@@ -59,6 +62,19 @@ class Collection {
     log() {
         console.log(this.toString());
     }
+
+    static fromJSON(json) {
+        let col = new Collection(json['_name']);
+        for (let rec of json['_records']) {
+            let rec_new = new record(rec._id);
+            for (let item of rec['_items']) {
+                let item_new = new record_item(item['_name'], item['_value']);
+                rec_new.append(item_new);
+            }
+            col.append(rec_new);
+        }
+        return col;
+    }
 }
 
 class WareHouse {
@@ -77,7 +93,51 @@ class WareHouse {
             return col;
         }
     }
-    
+
+    save() {
+        if (!fs.existsSync(config.dir)) {
+            fs.mkdirSync(config.dir);
+        }
+
+        for (let col of this._collections) {
+            fs.writeFileSync(config.dir + col._name + '.rfrec', JSON.stringify(col));
+        }
+
+        this._after_save(this._collections.length);
+    }
+
+    _after_save(count) {
+        if(config.interactive) {
+            console.log(`rf.save: ${count} collections saved to ${path.resolve(config.dir)}.\n`);
+        }
+    }
+
+    load() {
+        if (!fs.existsSync(config.dir)) {
+            this._after_load(0);
+            return;
+        }
+
+        let count = 0;
+        let dir = fs.readdirSync(config.dir);
+        dir.forEach(item => {
+            let stats = fs.statSync(config.dir + item);
+            if (stats.isFile()) {
+                this._collections.push(Collection.fromJSON(JSON.parse(fs.readFileSync(config.dir + item))));
+                ++count;
+            }
+        });
+        this._after_load(count);
+    }
+
+    _after_load(count) {
+        console.log(`rf.load: ${count} collections loaded.\n`);
+    }
+
+    clear() {
+        this._collections = [];
+    }
+
     toString() {
         return `rf: ${this._collections.length} collections. {version: ${constant.version}}`;
     }

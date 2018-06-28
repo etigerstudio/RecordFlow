@@ -20,10 +20,14 @@ class RecordItem {
 }
 
 class Record {
-    constructor() {
-        this._id = crypto.randomBytes(20).toString('hex');
+    constructor(id) {
+        this._id = id;
         //fixme: array performance penalty.
         this._items = [];
+    }
+
+    static build() {
+        return new Record(crypto.randomBytes(20).toString('hex'));
     }
 
     append(item) {
