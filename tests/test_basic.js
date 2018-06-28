@@ -1,6 +1,6 @@
-const warehouse = require('../warehouse');
-const filter = require('../filter');
-const {record, record_item} = require('../record');
+const warehouse = require('../warehouse/warehouse');
+const filter = require('../warehouse/filter');
+const {record, record_item} = require('../warehouse/record');
 
 console.log('------rf.test: init------');
 let col = warehouse.collection('default');

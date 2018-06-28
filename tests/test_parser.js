@@ -1,4 +1,4 @@
-let parser = require('../recordflow.js').parser;
+let parser = require('../parser/rf_parser').parser;
 
 parser.parse(`
 # insert

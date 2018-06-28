@@ -1,5 +1,5 @@
-const constant = require('./constant');
-let config = require('./config');
+const constant = require('../common/constant');
+let config = require('../common/config');
 const record_map = require('./recordmap');
 const fs = require('fs');
 const path = require('path');

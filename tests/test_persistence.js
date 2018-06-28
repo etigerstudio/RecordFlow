@@ -1,5 +1,5 @@
-let parser = require('../recordflow.js').parser;
-const warehouse = require('../warehouse');
+let parser = require('../parser/rf_parser').parser;
+const warehouse = require('../warehouse/warehouse');
 
 parser.parse(`
 # insert

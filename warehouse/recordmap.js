@@ -1,6 +1,5 @@
-const record_map = require('./recordmap');
 const record = require('./record').record;
-let config = require('./config');
+let config = require('../common/config');
 
 class RecordMap {
     constructor(collection, records) {
