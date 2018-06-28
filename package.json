@@ -1,0 +1,23 @@
+{
+  "name": "recordflow",
+  "version": "0.1.0",
+  "description": "Oh my! Such a delightful NoSQL database built on Node.js.",
+  "main": "recordflow.js",
+  "bin": "recordflow.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/etigerstudio/recordflow.git"
+  },
+  "keywords": [
+    "nosql",
+    "record",
+    "database",
+    "db"
+  ],
+  "author": "E-Tiger Studio",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/etigerstudio/recordflow/issues"
+  },
+  "homepage": "https://github.com/etigerstudio/recordflow#readme"
+}
