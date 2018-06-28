@@ -1,0 +1,26 @@
+
+# Basic
+Students <- {name: 'Max', age: 18, sex: 0, gpa: 3.88}
+Students -> {name = 'Max'}
+Students -> {name = 'Max'} <- {gpa: 3.98}
+Students -> {name = 'Max'} ~>
+
+# Advanced
+Students -> {age > 18 & sex = 0 | gpa < 3.5} -> {name}
+(Students -> {name = 'Max'}) <- (Students -> {name = 'Chloe'} -> {gpa})
+
+# Retired
+Students <- [{name: 'Max', id: 1}, 
+			 {name: 'Chloe', id: 2},
+			 {name: 'Rachel', id: 3},
+			 {name: 'Warren', id: 4}]
+Courses <- [{c_name: 'Math', id: 1}]
+[Students, Grades] -> {math > 85} -> {name} -> :5
+
+# Neo
+Students <- {name: 'Max', age: 18, sex: 0, gpa: 3.88}
+Students
+Students -> {name = 'Max'}
+Students -> {:all}
+Students -> {name = 'Max'} <- {gpa: 3.98}
+Students -> {name = 'Max'} ->
